@@ -20,16 +20,76 @@
 
 <div class="page_index_journal">
 
-	{* UDSM Journal Analytics Dashboard — External widget via iframe (does not modify OJS core) *}
-	<section class="global_impact_map" style="margin-bottom: 2rem;">
-		<iframe
-			src="http://localhost:3000"
-			style="width: 100%; height: 900px; border: none; border-radius: 12px; overflow: hidden;"
-			title="UDSM Journal Analytics Dashboard"
-			loading="lazy"
-			allow="accelerometer; autoplay"
-		></iframe>
+	{* UDSM Journal Analytics Dashboard — Hidden by default, shown only when #analytics is active *}
+	<section id="analytics" class="analytics_dashboard_section" style="display: none; margin-bottom: 2rem;">
+		<div style="background: #1e293b; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.2);">
+			<div style="padding: 12px 20px; background: linear-gradient(135deg, #1e3a5f, #0f172a); border-bottom: 1px solid #334155; display: flex; align-items: center; gap: 10px;">
+				<span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #3b82f6; animation: pulse 2s infinite;"></span>
+				<h2 style="margin: 0; font-size: 16px; font-weight: 600; color: #e2e8f0; letter-spacing: 0.5px;">📊 Analytics Dashboard</h2>
+			</div>
+			<iframe
+				id="analyticsIframe"
+				style="width: 100%; height: 900px; border: none; overflow: hidden;"
+				title="UDSM Journal Analytics Dashboard"
+				allow="accelerometer; autoplay"
+			></iframe>
+		</div>
 	</section>
+	<style>
+		@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+	</style>
+	<script>
+	(function() {
+		var analyticsSection = document.getElementById('analytics');
+		var analyticsIframe = document.getElementById('analyticsIframe');
+		var mainContent = document.querySelector('.page_index_journal');
+		var contentWrapper = document.querySelector('.pkp_structure_content');
+		var sidebar = document.querySelector('.pkp_structure_sidebar');
+
+		function toggleAnalytics() {
+			if (window.location.hash === '#analytics') {
+				analyticsSection.style.display = 'block';
+				// Lazy-load iframe only when Analytics tab is clicked
+				if (!analyticsIframe.src || analyticsIframe.src === window.location.href) {
+					analyticsIframe.src = 'http://localhost:3000';
+				}
+				// Hide sidebar and go full-width
+				if (sidebar) sidebar.style.display = 'none';
+				if (contentWrapper) {
+					contentWrapper.classList.remove('has_sidebar');
+					contentWrapper.style.maxWidth = '100%';
+				}
+				if (mainContent) mainContent.style.maxWidth = '100%';
+				// Hide other homepage sections
+				var siblings = mainContent.children;
+				for (var i = 0; i < siblings.length; i++) {
+					if (siblings[i].id !== 'analytics' && siblings[i].tagName !== 'STYLE' && siblings[i].tagName !== 'SCRIPT') {
+						siblings[i].style.display = 'none';
+					}
+				}
+			} else {
+				analyticsSection.style.display = 'none';
+				// Restore sidebar and layout
+				if (sidebar) sidebar.style.display = '';
+				if (contentWrapper) {
+					contentWrapper.classList.add('has_sidebar');
+					contentWrapper.style.maxWidth = '';
+				}
+				if (mainContent) mainContent.style.maxWidth = '';
+				// Show other homepage sections
+				var siblings = mainContent.children;
+				for (var i = 0; i < siblings.length; i++) {
+					if (siblings[i].id !== 'analytics' && siblings[i].tagName !== 'STYLE' && siblings[i].tagName !== 'SCRIPT') {
+						siblings[i].style.display = '';
+					}
+				}
+			}
+		}
+
+		window.addEventListener('hashchange', toggleAnalytics);
+		toggleAnalytics();
+	})();
+	</script>
 
 	{call_hook name="Templates::Index::journal"}
 

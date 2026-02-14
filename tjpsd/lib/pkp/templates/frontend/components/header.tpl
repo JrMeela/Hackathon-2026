@@ -93,6 +93,30 @@
 			</div><!-- .pkp_head_wrapper -->
 		</header><!-- .pkp_structure_head -->
 
+		{* Inject Analytics tab between Archives and Information to Authors *}
+		<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			var navList = document.getElementById('navigationPrimary');
+			if (!navList) return;
+			var items = navList.querySelectorAll(':scope > li');
+			var archivesItem = null;
+			items.forEach(function(li) {
+				var link = li.querySelector('a');
+				if (link && link.textContent.trim().toLowerCase() === 'archives') {
+					archivesItem = li;
+				}
+			});
+			if (archivesItem) {
+				var analyticsLi = document.createElement('li');
+				var analyticsLink = document.createElement('a');
+				analyticsLink.href = '{url router=$smarty.const.ROUTE_PAGE page="index"}#analytics';
+				analyticsLink.textContent = 'Analytics';
+				analyticsLi.appendChild(analyticsLink);
+				archivesItem.parentNode.insertBefore(analyticsLi, archivesItem.nextSibling);
+			}
+		});
+		</script>
+
 		{* Wrapper for page content and sidebars *}
 		{if $isFullWidth}
 			{assign var=hasSidebar value=0}

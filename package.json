@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.18",
+    "axios": "^1.13.5",
+    "lucide-react": "^0.564.0",
+    "react-globe.gl": "^2.37.0",
+    "tailwindcss": "^4.1.18",
+    "three": "^0.182.0"
+  }
+}

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.1, created on 2026-02-13 17:33:00
+/* Smarty version 4.3.1, created on 2026-02-14 14:02:13
   from 'plugins-1-plugins-blocks-languageToggle-blocks-languageToggle:block.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.1',
-  'unifunc' => 'content_698f523c7c1646_09433554',
+  'unifunc' => 'content_699072554c8009_64086803',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '380aaac34c3f816e81bbe10ec60be9f9fa511718' => 
     array (
       0 => 'plugins-1-plugins-blocks-languageToggle-blocks-languageToggle:block.tpl',
-      1 => 1770978304,
+      1 => 1771066922,
       2 => 'plugins-1-plugins-blocks-languageToggle-blocks-languageToggle',
     ),
   ),
@@ -20,8 +20,8 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_698f523c7c1646_09433554 (Smarty_Internal_Template $_smarty_tpl) {
-$_smarty_tpl->_checkPlugins(array(0=>array('file'=>'D:\\HACKATHON-OGSYSTEM\\tjpsd\\lib\\pkp\\lib\\vendor\\smarty\\smarty\\libs\\plugins\\modifier.replace.php','function'=>'smarty_modifier_replace',),));
+function content_699072554c8009_64086803 (Smarty_Internal_Template $_smarty_tpl) {
+$_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\Users\\junio\\Hackathon-2026\\tjpsd\\lib\\pkp\\lib\\vendor\\smarty\\smarty\\libs\\plugins\\modifier.replace.php','function'=>'smarty_modifier_replace',),));
 if ($_smarty_tpl->tpl_vars['enableLanguageToggle']->value) {?>
 <div class="pkp_block block_language">
 	<h2 class="title">

@@ -1,0 +1,4 @@
+/* App-level overrides - minimal since Tailwind handles most styling */
+#root {
+  width: 100%;
+}

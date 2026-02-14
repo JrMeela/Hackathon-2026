@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.1, created on 2026-02-13 13:25:28
+/* Smarty version 4.3.1, created on 2026-02-14 14:03:19
   from 'plugins-1-plugins-generic-pdfJsViewer-generic-pdfJsViewer:display.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.1',
-  'unifunc' => 'content_698f183865bd56_46533617',
+  'unifunc' => 'content_6990729704d380_81351327',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '73e5346aaf408dcf1a4b78878ba72a76778861af' => 
     array (
       0 => 'plugins-1-plugins-generic-pdfJsViewer-generic-pdfJsViewer:display.tpl',
-      1 => 1770978324,
+      1 => 1771066924,
       2 => 'plugins-1-plugins-generic-pdfJsViewer-generic-pdfJsViewer',
     ),
   ),
@@ -20,8 +20,8 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_698f183865bd56_46533617 (Smarty_Internal_Template $_smarty_tpl) {
-$_smarty_tpl->_checkPlugins(array(0=>array('file'=>'D:\\HACKATHON-OGSYSTEM\\tjpsd\\lib\\pkp\\lib\\vendor\\smarty\\smarty\\libs\\plugins\\modifier.replace.php','function'=>'smarty_modifier_replace',),));
+function content_6990729704d380_81351327 (Smarty_Internal_Template $_smarty_tpl) {
+$_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\Users\\junio\\Hackathon-2026\\tjpsd\\lib\\pkp\\lib\\vendor\\smarty\\smarty\\libs\\plugins\\modifier.replace.php','function'=>'smarty_modifier_replace',),));
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo smarty_modifier_replace($_smarty_tpl->tpl_vars['currentLocale']->value,"_","-");?>

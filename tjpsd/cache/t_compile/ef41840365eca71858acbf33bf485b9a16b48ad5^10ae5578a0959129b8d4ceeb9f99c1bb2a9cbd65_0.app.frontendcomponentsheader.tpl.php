@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.1, created on 2026-02-13 11:59:44
+/* Smarty version 4.3.1, created on 2026-02-14 16:23:37
   from 'app:frontendcomponentsheader.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.1',
-  'unifunc' => 'content_698f042068b179_36018194',
+  'unifunc' => 'content_699093791bae19_89932344',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '10ae5578a0959129b8d4ceeb9f99c1bb2a9cbd65' => 
     array (
       0 => 'app:frontendcomponentsheader.tpl',
-      1 => 1770978293,
+      1 => 1771082321,
       2 => 'app',
     ),
   ),
@@ -22,8 +22,8 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'app:frontend/components/skipLinks.tpl' => 1,
   ),
 ),false)) {
-function content_698f042068b179_36018194 (Smarty_Internal_Template $_smarty_tpl) {
-$_smarty_tpl->_checkPlugins(array(0=>array('file'=>'D:\\HACKATHON-OGSYSTEM\\tjpsd\\lib\\pkp\\lib\\vendor\\smarty\\smarty\\libs\\plugins\\modifier.replace.php','function'=>'smarty_modifier_replace',),));
+function content_699093791bae19_89932344 (Smarty_Internal_Template $_smarty_tpl) {
+$_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\Users\\junio\\Hackathon-2026\\tjpsd\\lib\\pkp\\lib\\vendor\\smarty\\smarty\\libs\\plugins\\modifier.replace.php','function'=>'smarty_modifier_replace',),));
 $_smarty_tpl->_assignInScope('showingLogo', true);
 if (!$_smarty_tpl->tpl_vars['displayPageHeaderLogo']->value) {
 $_smarty_tpl->_assignInScope('showingLogo', false);
@@ -130,6 +130,32 @@ if ($_smarty_tpl->tpl_vars['showingLogo']->value) {?> has_site_logo<?php }?>" di
 				</nav>
 			</div><!-- .pkp_head_wrapper -->
 		</header><!-- .pkp_structure_head -->
+
+				<?php echo '<script'; ?>
+>
+		document.addEventListener('DOMContentLoaded', function() {
+			var navList = document.getElementById('navigationPrimary');
+			if (!navList) return;
+			var items = navList.querySelectorAll(':scope > li');
+			var archivesItem = null;
+			items.forEach(function(li) {
+				var link = li.querySelector('a');
+				if (link && link.textContent.trim().toLowerCase() === 'archives') {
+					archivesItem = li;
+				}
+			});
+			if (archivesItem) {
+				var analyticsLi = document.createElement('li');
+				var analyticsLink = document.createElement('a');
+				analyticsLink.href = '<?php echo call_user_func_array( $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['url'][0], array( array('router'=>(defined('ROUTE_PAGE') ? constant('ROUTE_PAGE') : null),'page'=>"index"),$_smarty_tpl ) );?>
+#analytics';
+				analyticsLink.textContent = 'Analytics';
+				analyticsLi.appendChild(analyticsLink);
+				archivesItem.parentNode.insertBefore(analyticsLi, archivesItem.nextSibling);
+			}
+		});
+		<?php echo '</script'; ?>
+>
 
 				<?php if ($_smarty_tpl->tpl_vars['isFullWidth']->value) {?>
 			<?php $_smarty_tpl->_assignInScope('hasSidebar', 0);?>

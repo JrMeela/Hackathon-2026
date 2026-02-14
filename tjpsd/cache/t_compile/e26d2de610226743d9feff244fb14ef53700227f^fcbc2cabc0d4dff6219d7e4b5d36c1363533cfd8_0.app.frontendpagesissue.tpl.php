@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.1, created on 2026-02-13 13:25:41
+/* Smarty version 4.3.1, created on 2026-02-14 14:02:36
   from 'app:frontendpagesissue.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.1',
-  'unifunc' => 'content_698f1845ecaa00_19258136',
+  'unifunc' => 'content_6990726c0076e5_47319005',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'fcbc2cabc0d4dff6219d7e4b5d36c1363533cfd8' => 
     array (
       0 => 'app:frontendpagesissue.tpl',
-      1 => 1770978360,
+      1 => 1771066928,
       2 => 'app',
     ),
   ),
@@ -25,7 +25,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'app:frontend/components/footer.tpl' => 1,
   ),
 ),false)) {
-function content_698f1845ecaa00_19258136 (Smarty_Internal_Template $_smarty_tpl) {
+function content_6990726c0076e5_47319005 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_subTemplateRender("app:frontend/components/header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('pageTitleTranslated'=>$_smarty_tpl->tpl_vars['issueIdentification']->value), 0, false);
 ?>
 
