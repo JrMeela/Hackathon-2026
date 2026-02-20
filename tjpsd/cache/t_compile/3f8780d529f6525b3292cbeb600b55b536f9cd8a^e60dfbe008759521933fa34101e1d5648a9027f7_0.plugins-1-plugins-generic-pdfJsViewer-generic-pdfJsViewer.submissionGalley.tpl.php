@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.1, created on 2026-02-14 14:03:18
+/* Smarty version 4.3.1, created on 2026-02-14 23:01:42
   from 'plugins-1-plugins-generic-pdfJsViewer-generic-pdfJsViewer:submissionGalley.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.1',
-  'unifunc' => 'content_699072968b1f83_91340002',
+  'unifunc' => 'content_6990f0c679c9f4_70213628',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e60dfbe008759521933fa34101e1d5648a9027f7' => 
     array (
       0 => 'plugins-1-plugins-generic-pdfJsViewer-generic-pdfJsViewer:submissionGalley.tpl',
-      1 => 1771066924,
+      1 => 1771105834,
       2 => 'plugins-1-plugins-generic-pdfJsViewer-generic-pdfJsViewer',
     ),
   ),
@@ -20,10 +20,12 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_699072968b1f83_91340002 (Smarty_Internal_Template $_smarty_tpl) {
+function content_6990f0c679c9f4_70213628 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\Users\\junio\\Hackathon-2026\\tjpsd\\lib\\pkp\\lib\\vendor\\smarty\\smarty\\libs\\plugins\\modifier.date_format.php','function'=>'smarty_modifier_date_format',),));
 $_smarty_tpl->smarty->ext->_capture->open($_smarty_tpl, 'default', "pdfUrl", null);
-if ($_smarty_tpl->tpl_vars['isLatestPublication']->value) {
+if ($_smarty_tpl->tpl_vars['remoteUrl']->value) {
+echo $_smarty_tpl->tpl_vars['remoteUrl']->value;
+} elseif ($_smarty_tpl->tpl_vars['isLatestPublication']->value) {
 echo call_user_func_array( $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['url'][0], array( array('op'=>"download",'path'=>call_user_func_array($_smarty_tpl->registered_plugins[ 'modifier' ][ 'to_array' ][ 0 ], array( $_smarty_tpl->tpl_vars['bestId']->value,$_smarty_tpl->tpl_vars['galley']->value->getBestGalleyId($_smarty_tpl->tpl_vars['currentJournal']->value),$_smarty_tpl->tpl_vars['galleyFile']->value->getId() )),'escape'=>false),$_smarty_tpl ) );
 } else {
 echo call_user_func_array( $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['url'][0], array( array('op'=>"download",'path'=>call_user_func_array($_smarty_tpl->registered_plugins[ 'modifier' ][ 'to_array' ][ 0 ], array( $_smarty_tpl->tpl_vars['bestId']->value,'version',$_smarty_tpl->tpl_vars['galleyPublication']->value->getId(),$_smarty_tpl->tpl_vars['galley']->value->getBestGalleyId($_smarty_tpl->tpl_vars['currentJournal']->value),$_smarty_tpl->tpl_vars['galleyFile']->value->getId() )),'escape'=>false),$_smarty_tpl ) );

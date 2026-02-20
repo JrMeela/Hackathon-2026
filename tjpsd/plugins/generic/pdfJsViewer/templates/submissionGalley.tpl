@@ -8,7 +8,9 @@
  * Embedded viewing of a PDF galley.
  *}
 {capture assign="pdfUrl"}{strip}
-	{if $isLatestPublication}
+	{if $remoteUrl}
+		{$remoteUrl}
+	{elseif $isLatestPublication}
 		{url op="download" path=$bestId|to_array:$galley->getBestGalleyId($currentJournal):$galleyFile->getId() escape=false}
 	{else}
 		{url op="download" path=$bestId|to_array:'version':$galleyPublication->getId():$galley->getBestGalleyId($currentJournal):$galleyFile->getId() escape=false}

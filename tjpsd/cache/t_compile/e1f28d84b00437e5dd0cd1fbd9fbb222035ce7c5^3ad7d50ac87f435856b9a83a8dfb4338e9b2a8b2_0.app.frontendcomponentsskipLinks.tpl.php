@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.1, created on 2026-02-13 16:59:24
+/* Smarty version 4.3.1, created on 2026-02-15 08:17:09
   from 'app:frontendcomponentsskipLinks.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.1',
-  'unifunc' => 'content_698f4a5c615931_54778072',
+  'unifunc' => 'content_699172f554e0e8_93286551',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '3ad7d50ac87f435856b9a83a8dfb4338e9b2a8b2' => 
     array (
       0 => 'app:frontendcomponentsskipLinks.tpl',
-      1 => 1770978359,
+      1 => 1771066928,
       2 => 'app',
     ),
   ),
@@ -20,8 +20,8 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_698f4a5c615931_54778072 (Smarty_Internal_Template $_smarty_tpl) {
-$_smarty_tpl->_checkPlugins(array(0=>array('file'=>'D:\\HACKATHON-OGSYSTEM\\tjpsd\\lib\\pkp\\lib\\vendor\\smarty\\smarty\\libs\\plugins\\modifier.count.php','function'=>'smarty_modifier_count',),));
+function content_699172f554e0e8_93286551 (Smarty_Internal_Template $_smarty_tpl) {
+$_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\Users\\junio\\Hackathon-2026\\tjpsd\\lib\\pkp\\lib\\vendor\\smarty\\smarty\\libs\\plugins\\modifier.count.php','function'=>'smarty_modifier_count',),));
 ?>
 
  <nav class="cmp_skip_to_content" aria-label="<?php echo call_user_func_array( $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['translate'][0], array( array('key'=>"navigation.skip.description"),$_smarty_tpl ) );?>

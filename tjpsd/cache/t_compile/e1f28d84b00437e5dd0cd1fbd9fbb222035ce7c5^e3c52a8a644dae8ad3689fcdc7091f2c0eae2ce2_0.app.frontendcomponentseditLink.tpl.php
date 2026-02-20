@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.1, created on 2026-02-13 16:59:24
+/* Smarty version 4.3.1, created on 2026-02-15 08:17:09
   from 'app:frontendcomponentseditLink.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.1',
-  'unifunc' => 'content_698f4a5cd89013_24131748',
+  'unifunc' => 'content_699172f5afe158_37808097',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e3c52a8a644dae8ad3689fcdc7091f2c0eae2ce2' => 
     array (
       0 => 'app:frontendcomponentseditLink.tpl',
-      1 => 1770978293,
+      1 => 1771066912,
       2 => 'app',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_698f4a5cd89013_24131748 (Smarty_Internal_Template $_smarty_tpl) {
+function content_699172f5afe158_37808097 (Smarty_Internal_Template $_smarty_tpl) {
 if (in_array(ROLE_ID_MANAGER,(array) $_smarty_tpl->tpl_vars['userRoles']->value)) {?>
 
 		<?php if ($_smarty_tpl->tpl_vars['sectionTitleKey']->value) {?>

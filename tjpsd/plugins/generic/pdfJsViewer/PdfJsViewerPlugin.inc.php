@@ -85,7 +85,16 @@ class PdfJsViewerPlugin extends GenericPlugin {
 		}
 
 		$submissionFile = $galley->getFile();
-		if ($submissionFile->getData('mimetype') === 'application/pdf') {
+		$remoteUrl = $galley->getRemoteURL();
+		$isPdf = false;
+
+		if ($submissionFile && $submissionFile->getData('mimetype') === 'application/pdf') {
+			$isPdf = true;
+		} elseif ($remoteUrl && (preg_match('/\.pdf$/i', $remoteUrl) || preg_match('/\/article\/view\/\d+\/\d+/', $remoteUrl) || $galley->getLabel() === 'PDF')) {
+			$isPdf = true;
+		}
+
+		if ($isPdf) {
 			$galleyPublication = null;
 			foreach ($submission->getData('publications') as $publication) {
 				if ($publication->getId() === $galley->getData('publicationId')) {
@@ -106,6 +115,7 @@ class PdfJsViewerPlugin extends GenericPlugin {
 				'currentVersionString' => $application->getCurrentVersion()->getVersionString(false),
 				'isLatestPublication' => $submission->getData('currentPublicationId') === $galley->getData('publicationId'),
 				'galleyPublication' => $galleyPublication,
+				'remoteUrl' => $remoteUrl,
 			));
 			$templateMgr->display($this->getTemplateResource('submissionGalley.tpl'));
 			return true;

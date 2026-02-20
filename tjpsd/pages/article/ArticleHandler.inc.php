@@ -272,7 +272,16 @@ class ArticleHandler extends Handler {
 		]);
 
 		// Fetch and assign the galley to the template
-		if ($this->galley && $this->galley->getRemoteURL()) $request->redirectUrl($this->galley->getRemoteURL());
+		// Remote URL galleys: let the galley view hook handle PDF display first
+		if ($this->galley && $this->galley->getRemoteURL()) {
+			$remoteUrl = $this->galley->getRemoteURL();
+			// If it looks like a PDF link, let the hook (PDF.js viewer) handle it
+			if (preg_match('/\.pdf$/i', $remoteUrl) || preg_match('/\/article\/view\/\d+\/\d+/', $remoteUrl)) {
+				// Fall through to the galley hook below
+			} else {
+				$request->redirectUrl($remoteUrl);
+			}
+		}
 
 		if (empty($this->galley)) {
 			// No galley: Prepare the article landing page.
@@ -402,7 +411,13 @@ class ArticleHandler extends Handler {
 	function download($args, $request) {
 
 		if (!isset($this->galley)) $request->getDispatcher()->handle404();
-		if ($this->galley->getRemoteURL()) $request->redirectUrl($this->galley->getRemoteURL());
+		if ($this->galley->getRemoteURL()) {
+			// For remote PDF galleys, serve the remote URL directly (browser will display inline)
+			$remoteUrl = $this->galley->getRemoteURL();
+			header('Content-Type: application/pdf');
+			header('Content-Disposition: inline');
+			$request->redirectUrl($remoteUrl);
+		}
 		else if ($this->userCanViewGalley($request, $this->article->getId(), $this->galley->getId())) {
 			if (!$this->fileId) {
 				$this->fileId = $this->galley->getData('submissionFileId');

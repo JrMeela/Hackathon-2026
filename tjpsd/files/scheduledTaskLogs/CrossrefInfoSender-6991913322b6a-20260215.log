@@ -1,0 +1,4 @@
+[2026-02-15 10:26:11] http://localhost:8000
+[2026-02-15 10:26:11] [Notice] Task process started.
+[2026-02-15 10:31:37] [Warning] Registration was not successful! The DOI registration server returned an error: 'Deposited XML is not well-formed or does not validate: Error on line 50: An invalid XML character (Unicode: 0x2) was found in the element content of the document.: Error on line 50: An invalid XML character (Unicode: 0x2) was found in the element content of the document. (403 Forbidden)'.
+[2026-02-15 10:35:30] [Warning] Registration was not successful! The DOI registration server returned an error: 'Deposited XML is not well-formed or does not validate: Error on line 50: An invalid XML character (Unicode: 0x2) was found in the element content of the document.: Error on line 50: An invalid XML character (Unicode: 0x2) was found in the element content of the document. (403 Forbidden)'.

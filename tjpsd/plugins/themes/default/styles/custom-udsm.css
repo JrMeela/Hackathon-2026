@@ -1,0 +1,1208 @@
+/**
+ * Custom UDSM Theme Override
+ * Colors matched to https://journals.udsm.ac.tz/
+ * Modern styling with Apple glassmorphism effects
+ */
+
+/* ========================================
+   CSS Variables — UDSM Color Palette
+   ======================================== */
+:root {
+  --udsm-navy: #0B1D32;
+  --udsm-navy-mid: #122A45;
+  --udsm-navy-light: #1A3A5C;
+  --udsm-blue: #1E6292;
+  --udsm-blue-bright: #2980B9;
+  --udsm-gold: #D4A843;
+  --udsm-gold-light: #E8C96A;
+  --udsm-white: #FFFFFF;
+  --udsm-off-white: #F0F4F8;
+  --udsm-text: #1a1a2e;
+  --udsm-text-light: #4a5568;
+  --udsm-glass-bg: rgba(255, 255, 255, 0.65);
+  --udsm-glass-border: rgba(255, 255, 255, 0.35);
+  --udsm-glass-shadow: 0 8px 32px rgba(11, 29, 50, 0.12);
+  --udsm-radius: 16px;
+  --udsm-radius-sm: 10px;
+  --udsm-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========================================
+   Google Font Import
+   ======================================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* ========================================
+   Base / Body
+   ======================================== */
+html, body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  background: linear-gradient(135deg, var(--udsm-off-white) 0%, #e2e8f0 50%, #dbeafe 100%) !important;
+  color: var(--udsm-text) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--udsm-blue) !important;
+  transition: var(--udsm-transition);
+}
+
+a:hover, a:focus {
+  color: var(--udsm-blue-bright) !important;
+}
+
+/* ========================================
+   Header — Deep Navy + Glassmorphism
+   ======================================== */
+.pkp_structure_head {
+  background: linear-gradient(135deg, var(--udsm-navy) 0%, var(--udsm-navy-mid) 50%, var(--udsm-navy-light) 100%) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 100;
+}
+
+.pkp_structure_head::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, rgba(212, 168, 67, 0.03) 0%, transparent 50%, rgba(212, 168, 67, 0.03) 100%);
+  pointer-events: none;
+}
+
+/* Site name / logo */
+.pkp_site_name .is_text {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em;
+  color: var(--udsm-white) !important;
+}
+
+.pkp_site_name .is_img img {
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+}
+
+/* ========================================
+   Navigation — Frosted Glass Tabs
+   ======================================== */
+.pkp_site_nav_menu {
+  background: var(--udsm-navy) !important;
+}
+
+@media (min-width: 992px) {
+  .pkp_navigation_primary > li > a {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-weight: 500 !important;
+    font-size: 0.9rem !important;
+    letter-spacing: 0.01em;
+    border-bottom: 2px solid transparent !important;
+    border-radius: 8px 8px 0 0;
+    transition: var(--udsm-transition) !important;
+    position: relative;
+  }
+
+  .pkp_navigation_primary > li > a:hover {
+    color: var(--udsm-white) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-bottom-color: var(--udsm-gold) !important;
+  }
+
+  .pkp_navigation_primary > li > a:focus {
+    background: rgba(255, 255, 255, 0.12) !important;
+    color: var(--udsm-white) !important;
+    outline: none !important;
+  }
+
+  /* Active tab indicator — gold accent */
+  .pkp_navigation_primary > li.current > a,
+  .pkp_navigation_primary > li > a[aria-current="page"] {
+    border-bottom-color: var(--udsm-gold) !important;
+    color: var(--udsm-white) !important;
+  }
+
+  /* Dropdown menus — glass effect */
+  .pkp_nav_list ul {
+    background: rgba(255, 255, 255, 0.92) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    border-radius: var(--udsm-radius-sm) !important;
+    box-shadow: 0 12px 40px rgba(11, 29, 50, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.04) !important;
+    overflow: hidden;
+  }
+
+  .pkp_nav_list ul a {
+    color: var(--udsm-text) !important;
+    border-left-color: transparent !important;
+    transition: var(--udsm-transition) !important;
+  }
+
+  .pkp_nav_list ul a:hover,
+  .pkp_nav_list ul a:focus {
+    background: rgba(30, 98, 146, 0.08) !important;
+    border-left-color: var(--udsm-blue) !important;
+    color: var(--udsm-blue) !important;
+  }
+
+  /* Search icon */
+  .pkp_navigation_search_wrapper a {
+    color: rgba(255, 255, 255, 0.85) !important;
+    transition: var(--udsm-transition) !important;
+  }
+
+  .pkp_navigation_search_wrapper a:hover {
+    color: var(--udsm-gold-light) !important;
+    border-bottom-color: var(--udsm-gold) !important;
+  }
+
+  /* User nav */
+  .pkp_navigation_user a {
+    color: rgba(255, 255, 255, 0.75) !important;
+  }
+
+  .pkp_navigation_user a:hover {
+    color: var(--udsm-white) !important;
+  }
+
+  .pkp_navigation_user > li > a:focus {
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: var(--udsm-white) !important;
+  }
+}
+
+/* ========================================
+   Content Area — Glass Cards
+   ======================================== */
+.pkp_structure_content {
+  position: relative;
+}
+
+.pkp_structure_main {
+  background: transparent !important;
+}
+
+/* Remove the old vertical border lines */
+.pkp_structure_main:before,
+.pkp_structure_main:after {
+  display: none !important;
+}
+
+/* ========================================
+   Article Summary Cards — Glassmorphism
+   ======================================== */
+.obj_article_summary {
+  background: var(--udsm-glass-bg) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--udsm-glass-border) !important;
+  border-radius: var(--udsm-radius) !important;
+  padding: 1.5rem !important;
+  margin-bottom: 1rem !important;
+  box-shadow: var(--udsm-glass-shadow) !important;
+  transition: var(--udsm-transition) !important;
+}
+
+.obj_article_summary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(11, 29, 50, 0.18) !important;
+  border-color: rgba(30, 98, 146, 0.2) !important;
+}
+
+.obj_article_summary > .title {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em;
+}
+
+.obj_article_summary > .title a {
+  color: var(--udsm-navy) !important;
+  text-decoration: none !important;
+}
+
+.obj_article_summary > .title a:hover {
+  color: var(--udsm-blue) !important;
+}
+
+.obj_article_summary .meta .authors {
+  color: var(--udsm-text-light) !important;
+  font-size: 0.88rem;
+}
+
+/* Galley links (PDF buttons) */
+.obj_article_summary .galleys_links a,
+.obj_galley_link {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 1rem !important;
+  background: linear-gradient(135deg, var(--udsm-blue), var(--udsm-blue-bright)) !important;
+  color: var(--udsm-white) !important;
+  border-radius: 8px !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em;
+  text-decoration: none !important;
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(30, 98, 146, 0.25);
+  transition: var(--udsm-transition) !important;
+}
+
+.obj_article_summary .galleys_links a:hover,
+.obj_galley_link:hover {
+  background: linear-gradient(135deg, var(--udsm-blue-bright), #3498db) !important;
+  color: var(--udsm-white) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(30, 98, 146, 0.35);
+}
+
+/* ========================================
+   Article Details Page — Glass Card
+   ======================================== */
+.obj_article_details {
+  background: var(--udsm-glass-bg) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--udsm-glass-border) !important;
+  border-radius: var(--udsm-radius) !important;
+  padding: 2rem !important;
+  box-shadow: var(--udsm-glass-shadow) !important;
+}
+
+.obj_article_details .page_title {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  color: var(--udsm-navy) !important;
+  letter-spacing: -0.02em;
+}
+
+.obj_article_details .subtitle {
+  color: var(--udsm-text-light) !important;
+}
+
+.obj_article_details .item.doi a {
+  color: var(--udsm-blue) !important;
+}
+
+/* ========================================
+   Issue TOC — Glass Styling
+   ======================================== */
+.obj_issue_toc {
+  background: transparent !important;
+}
+
+.obj_issue_toc .title {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  color: var(--udsm-navy) !important;
+  letter-spacing: -0.01em;
+}
+
+.obj_issue_toc .description {
+  color: var(--udsm-text-light) !important;
+}
+
+/* Section headers in issue TOC */
+.obj_issue_toc .sections .section .title {
+  background: linear-gradient(135deg, var(--udsm-navy), var(--udsm-navy-mid)) !important;
+  color: var(--udsm-white) !important;
+  padding: 0.75rem 1.25rem !important;
+  border-radius: var(--udsm-radius-sm) !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em;
+  margin-bottom: 1rem !important;
+  border: none !important;
+}
+
+/* Article titles in issue TOC - make them white on dark background */
+.obj_issue_toc .sections .section .obj_article_summary > .title,
+.obj_issue_toc .sections .section .obj_article_summary > .title a {
+  color: var(--udsm-white) !important;
+  background: linear-gradient(135deg, var(--udsm-navy), var(--udsm-navy-mid)) !important;
+  padding: 0.75rem 1.25rem !important;
+  border-radius: var(--udsm-radius-sm) !important;
+  display: block !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.obj_issue_toc .sections .section .obj_article_summary > .title a:hover {
+  color: var(--udsm-gold-light) !important;
+  background: linear-gradient(135deg, var(--udsm-navy-mid), var(--udsm-navy-light)) !important;
+}
+
+/* ========================================
+   Issue Summary Cards (Archive page)
+   ======================================== */
+.obj_issue_summary {
+  background: var(--udsm-glass-bg) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--udsm-glass-border) !important;
+  border-radius: var(--udsm-radius) !important;
+  padding: 1.5rem !important;
+  margin-bottom: 1rem !important;
+  box-shadow: var(--udsm-glass-shadow) !important;
+  transition: var(--udsm-transition) !important;
+}
+
+.obj_issue_summary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(11, 29, 50, 0.18) !important;
+}
+
+.obj_issue_summary .title {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 600 !important;
+  color: var(--udsm-navy) !important;
+}
+
+.obj_issue_summary .title a {
+  color: var(--udsm-navy) !important;
+  text-decoration: none !important;
+}
+
+.obj_issue_summary .title a:hover {
+  color: var(--udsm-blue) !important;
+}
+
+/* ========================================
+   Sidebar — Glass Panel
+   ======================================== */
+.pkp_structure_sidebar {
+  margin-top: 0;
+}
+
+.pkp_block {
+  background: var(--udsm-glass-bg) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--udsm-glass-border) !important;
+  border-radius: var(--udsm-radius) !important;
+  padding: 1.25rem !important;
+  margin-bottom: 1rem !important;
+  box-shadow: var(--udsm-glass-shadow) !important;
+}
+
+.pkp_block .title {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.8rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: var(--udsm-navy) !important;
+  padding-bottom: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+  border-bottom: 2px solid var(--udsm-gold) !important;
+}
+
+.pkp_block ul {
+  list-style: none !important;
+  padding-left: 0 !important;
+}
+
+.pkp_block ul li {
+  padding: 0.35rem 0;
+}
+
+.pkp_block ul li a {
+  color: var(--udsm-text) !important;
+  text-decoration: none !important;
+  font-size: 0.9rem;
+  transition: var(--udsm-transition) !important;
+}
+
+.pkp_block ul li a:hover {
+  color: var(--udsm-blue) !important;
+  padding-left: 4px;
+}
+
+/* ========================================
+   Footer — Dark Navy
+   ======================================== */
+.pkp_structure_footer_wrapper {
+  background: linear-gradient(135deg, var(--udsm-navy) 0%, var(--udsm-navy-mid) 100%) !important;
+  border-top: 3px solid var(--udsm-gold) !important;
+}
+
+.pkp_structure_footer {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.pkp_footer_content {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.pkp_footer_content a {
+  color: var(--udsm-gold-light) !important;
+}
+
+.pkp_footer_content a:hover {
+  color: var(--udsm-gold) !important;
+}
+
+.pkp_brand_footer a {
+  opacity: 0.6;
+  transition: var(--udsm-transition);
+}
+
+.pkp_brand_footer a:hover {
+  opacity: 1;
+}
+
+/* ========================================
+   Breadcrumbs
+   ======================================== */
+.pkp_breadcrumbs {
+  font-size: 0.82rem;
+  color: var(--udsm-text-light);
+}
+
+.pkp_breadcrumbs a {
+  color: var(--udsm-blue) !important;
+}
+
+/* ========================================
+   Forms & Buttons
+   ======================================== */
+.pkp_button,
+.cmp_button,
+button.pkp_button {
+  background: linear-gradient(135deg, var(--udsm-blue), var(--udsm-blue-bright)) !important;
+  color: var(--udsm-white) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 0.6rem 1.4rem !important;
+  font-weight: 600 !important;
+  font-size: 0.88rem !important;
+  box-shadow: 0 2px 8px rgba(30, 98, 146, 0.2);
+  transition: var(--udsm-transition) !important;
+  cursor: pointer;
+}
+
+.pkp_button:hover,
+.cmp_button:hover,
+button.pkp_button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(30, 98, 146, 0.3) !important;
+}
+
+/* ========================================
+   Page Titles
+   ======================================== */
+.page_title {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  color: var(--udsm-navy) !important;
+  letter-spacing: -0.02em;
+}
+
+/* ========================================
+   Announcements
+   ======================================== */
+.obj_announcement_summary,
+.obj_announcement_full {
+  background: var(--udsm-glass-bg) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--udsm-glass-border) !important;
+  border-radius: var(--udsm-radius) !important;
+  padding: 1.5rem !important;
+  box-shadow: var(--udsm-glass-shadow) !important;
+}
+
+/* ========================================
+   Search Page
+   ======================================== */
+.pkp_search_form input[type="text"],
+.pkp_search_form input[type="search"] {
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  border-radius: var(--udsm-radius-sm) !important;
+  padding: 0.65rem 1rem !important;
+  font-family: 'Inter', sans-serif !important;
+  background: var(--udsm-glass-bg) !important;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: var(--udsm-transition) !important;
+}
+
+.pkp_search_form input[type="text"]:focus,
+.pkp_search_form input[type="search"]:focus {
+  border-color: var(--udsm-blue) !important;
+  box-shadow: 0 0 0 3px rgba(30, 98, 146, 0.15) !important;
+  outline: none !important;
+}
+
+/* ========================================
+   Scrollbar Styling
+   ======================================== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--udsm-off-white);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(11, 29, 50, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(11, 29, 50, 0.35);
+}
+
+/* ========================================
+   Ambient Background Blurs (Apple-style)
+   ======================================== */
+.pkp_structure_page {
+  position: relative;
+}
+
+.pkp_structure_page::before {
+  content: '';
+  position: fixed;
+  top: -20%;
+  left: -10%;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: rgba(30, 98, 146, 0.04);
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pkp_structure_page::after {
+  content: '';
+  position: fixed;
+  bottom: -10%;
+  right: -5%;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: rgba(212, 168, 67, 0.03);
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.pkp_structure_content {
+  position: relative;
+  z-index: 1;
+}
+
+/* ========================================
+   Homepage — Journal Description Glass Card
+   ======================================== */
+.homepage_about,
+.additional_content {
+  background: var(--udsm-glass-bg) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--udsm-glass-border) !important;
+  border-radius: var(--udsm-radius) !important;
+  padding: 2rem !important;
+  margin-bottom: 1.5rem !important;
+  box-shadow: var(--udsm-glass-shadow) !important;
+}
+
+/* ========================================
+   Current Issue Section
+   ======================================== */
+.current_issue {
+  background: var(--udsm-glass-bg) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--udsm-glass-border) !important;
+  border-radius: var(--udsm-radius) !important;
+  padding: 2rem !important;
+  margin-bottom: 2rem !important;
+  box-shadow: var(--udsm-glass-shadow) !important;
+  max-width: 100% !important;
+  width: 100% !important;
+}
+
+.current_issue .current_issue_title {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+  color: var(--udsm-navy) !important;
+  letter-spacing: -0.02em;
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  border-bottom: 3px solid var(--udsm-gold);
+  display: inline-block;
+}
+
+.current_issue .obj_article_summary {
+  padding: 1.25rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.current_issue .obj_article_summary > .title {
+  font-size: 1rem !important;
+}
+
+.current_issue .obj_article_summary > .title a {
+  font-size: 1rem !important;
+  line-height: 1.4 !important;
+}
+
+/* ========================================
+   Pagination
+   ======================================== */
+.cmp_pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+}
+
+.cmp_pagination a,
+.cmp_pagination .current {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.2rem;
+  height: 2.2rem;
+  padding: 0 0.6rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.88rem;
+  transition: var(--udsm-transition);
+}
+
+.cmp_pagination a {
+  background: var(--udsm-glass-bg);
+  border: 1px solid var(--udsm-glass-border);
+  color: var(--udsm-text) !important;
+}
+
+.cmp_pagination a:hover {
+  background: var(--udsm-blue) !important;
+  color: var(--udsm-white) !important;
+  border-color: var(--udsm-blue) !important;
+}
+
+.cmp_pagination .current {
+  background: var(--udsm-blue);
+  color: var(--udsm-white);
+  border: 1px solid var(--udsm-blue);
+}
+
+/* ========================================
+   Mobile Nav Refinements
+   ======================================== */
+@media (max-width: 991px) {
+  .pkp_site_nav_menu {
+    background: var(--udsm-navy) !important;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+  }
+
+  .pkp_site_nav_menu a {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 500;
+  }
+}
+
+/* ========================================
+   Gold Accent Dividers
+   ======================================== */
+.pkp_structure_main hr,
+.obj_issue_toc hr {
+  border: none !important;
+  height: 2px !important;
+  background: linear-gradient(90deg, transparent, var(--udsm-gold), transparent) !important;
+  margin: 2rem 0 !important;
+}
+
+/* ========================================
+   Selection Color
+   ======================================== */
+::selection {
+  background: rgba(30, 98, 146, 0.2);
+  color: var(--udsm-navy);
+}
+
+/* ========================================
+   SIDEBAR — Premium Modernization
+   ======================================== */
+
+/* Flag Counter Block */
+.pkp_block.block_custom {
+  background: var(--udsm-glass-bg) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--udsm-glass-border) !important;
+  border-radius: var(--udsm-radius) !important;
+  padding: 1.5rem !important;
+  box-shadow: var(--udsm-glass-shadow) !important;
+  overflow: hidden;
+}
+
+.pkp_block.block_custom .title {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: var(--udsm-navy) !important;
+  padding-bottom: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+  border-bottom: 2px solid var(--udsm-gold) !important;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pkp_block.block_custom .title::before {
+  content: '🌍';
+  font-size: 1rem;
+}
+
+.pkp_block.block_custom .content img {
+  border-radius: var(--udsm-radius-sm) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: var(--udsm-transition);
+  width: 100%;
+  height: auto;
+}
+
+.pkp_block.block_custom .content img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Web Feed Block (Current Issue / ATOM / RSS) */
+.pkp_block.block_web_feed {
+  background: var(--udsm-glass-bg) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--udsm-glass-border) !important;
+  border-radius: var(--udsm-radius) !important;
+  padding: 1.5rem !important;
+  box-shadow: var(--udsm-glass-shadow) !important;
+}
+
+.pkp_block.block_web_feed .title {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: var(--udsm-navy) !important;
+  padding-bottom: 0.75rem !important;
+  margin-bottom: 1rem !important;
+  border-bottom: 2px solid var(--udsm-gold) !important;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pkp_block.block_web_feed .title::before {
+  content: '📡';
+  font-size: 1rem;
+}
+
+.pkp_block.block_web_feed .content ul {
+  display: flex !important;
+  flex-direction: column;
+  gap: 0.5rem !important;
+}
+
+.pkp_block.block_web_feed .content ul li {
+  padding: 0 !important;
+}
+
+.pkp_block.block_web_feed .content ul li a {
+  display: flex !important;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem !important;
+  background: rgba(255, 255, 255, 0.6) !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+  border-radius: var(--udsm-radius-sm) !important;
+  transition: var(--udsm-transition) !important;
+  text-decoration: none !important;
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: var(--udsm-text) !important;
+}
+
+.pkp_block.block_web_feed .content ul li a:hover {
+  background: rgba(30, 98, 146, 0.06) !important;
+  border-color: rgba(30, 98, 146, 0.15) !important;
+  transform: translateX(4px);
+  color: var(--udsm-blue) !important;
+}
+
+.pkp_block.block_web_feed .content ul li a img {
+  width: 22px !important;
+  height: auto !important;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+/* Information Block */
+.pkp_block.block_information {
+  background: var(--udsm-glass-bg) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--udsm-glass-border) !important;
+  border-radius: var(--udsm-radius) !important;
+  padding: 1.5rem !important;
+  box-shadow: var(--udsm-glass-shadow) !important;
+}
+
+.pkp_block.block_information .title {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: var(--udsm-navy) !important;
+  padding-bottom: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+  border-bottom: 2px solid var(--udsm-gold) !important;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pkp_block.block_information .title::before {
+  content: 'ℹ️';
+  font-size: 1rem;
+}
+
+.pkp_block.block_information .content ul {
+  display: flex !important;
+  flex-direction: column;
+  gap: 0.25rem !important;
+}
+
+.pkp_block.block_information .content ul li {
+  padding: 0 !important;
+}
+
+.pkp_block.block_information .content ul li a {
+  display: flex !important;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.85rem !important;
+  background: transparent !important;
+  border-radius: 8px !important;
+  transition: var(--udsm-transition) !important;
+  text-decoration: none !important;
+  font-weight: 500;
+  font-size: 0.88rem;
+  color: var(--udsm-text) !important;
+  position: relative;
+}
+
+.pkp_block.block_information .content ul li a::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--udsm-gold);
+  flex-shrink: 0;
+  transition: var(--udsm-transition);
+}
+
+.pkp_block.block_information .content ul li a:hover {
+  background: rgba(30, 98, 146, 0.06) !important;
+  color: var(--udsm-blue) !important;
+  padding-left: 1.1rem !important;
+}
+
+.pkp_block.block_information .content ul li a:hover::before {
+  background: var(--udsm-blue);
+  transform: scale(1.3);
+}
+
+/* Make a Submission Block */
+.pkp_block.block_make_submission {
+  background: linear-gradient(135deg, var(--udsm-navy) 0%, var(--udsm-navy-light) 100%) !important;
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: var(--udsm-radius) !important;
+  padding: 1.5rem !important;
+  box-shadow: 0 8px 32px rgba(11, 29, 50, 0.2) !important;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.pkp_block.block_make_submission::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -30%;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(212, 168, 67, 0.08);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.pkp_block.block_make_submission .content {
+  position: relative;
+  z-index: 1;
+}
+
+.pkp_block.block_make_submission .content a,
+a.block_make_submission_link {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.85rem 1.5rem !important;
+  background: linear-gradient(135deg, var(--udsm-gold), var(--udsm-gold-light)) !important;
+  color: var(--udsm-navy) !important;
+  border: none !important;
+  border-radius: var(--udsm-radius-sm) !important;
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.9rem !important;
+  letter-spacing: 0.02em;
+  text-decoration: none !important;
+  box-shadow: 0 4px 16px rgba(212, 168, 67, 0.3);
+  transition: var(--udsm-transition) !important;
+  cursor: pointer;
+}
+
+.pkp_block.block_make_submission .content a:hover,
+a.block_make_submission_link:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 24px rgba(212, 168, 67, 0.4) !important;
+  background: linear-gradient(135deg, var(--udsm-gold-light), var(--udsm-gold)) !important;
+  color: var(--udsm-navy) !important;
+}
+
+/* Browse Block */
+.pkp_block.block_browse {
+  background: var(--udsm-glass-bg) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--udsm-glass-border) !important;
+  border-radius: var(--udsm-radius) !important;
+  padding: 1.5rem !important;
+  box-shadow: var(--udsm-glass-shadow) !important;
+}
+
+.pkp_block.block_browse .title {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  color: var(--udsm-navy) !important;
+  padding-bottom: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+  border-bottom: 2px solid var(--udsm-gold) !important;
+}
+
+/* ========================================
+   Article Detail — Mini World Map
+   ======================================== */
+.article-metrics-map {
+  background: var(--udsm-glass-bg);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--udsm-glass-border);
+  border-radius: var(--udsm-radius);
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+  box-shadow: var(--udsm-glass-shadow);
+}
+
+.article-metrics-map .metrics-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.article-metrics-map .metrics-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--udsm-navy);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.article-metrics-map .metrics-title::before {
+  content: '🌐';
+  font-size: 1rem;
+}
+
+.article-metrics-map .metrics-stats {
+  display: flex;
+  gap: 1rem;
+}
+
+.article-metrics-map .metric-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.7rem;
+  background: rgba(30, 98, 146, 0.08);
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--udsm-navy);
+}
+
+.article-metrics-map .metric-badge .metric-icon {
+  font-size: 0.8rem;
+}
+
+/* Full-width globe variant */
+.article-metrics-map--fullwidth {
+  margin-top: 2rem;
+  padding: 1.5rem !important;
+  clear: both;
+}
+
+/* Globe container — large interactive 3D */
+.article-metrics-map .globe-container {
+  position: relative;
+  width: 100%;
+  min-height: 420px;
+  border-radius: var(--udsm-radius-sm);
+  overflow: hidden;
+  background: radial-gradient(ellipse at center, #0a1628 0%, #0B1D32 60%, #060e1a 100%);
+  cursor: grab;
+}
+
+.article-metrics-map .globe-container:active {
+  cursor: grabbing;
+}
+
+.article-metrics-map .globe-container canvas {
+  border-radius: var(--udsm-radius-sm);
+}
+
+.article-metrics-map .globe-loading {
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--udsm-text-light);
+  font-weight: 500;
+  animation: pulseOpacity 1.5s ease-in-out infinite;
+}
+
+.article-metrics-map .globe-no-data {
+  display: block;
+  text-align: center;
+  padding: 0.75rem;
+  font-size: 0.82rem;
+  color: var(--udsm-text-light);
+  font-style: italic;
+}
+
+@keyframes pulseOpacity {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.article-metrics-map .metrics-countries {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.75rem;
+}
+
+.article-metrics-map .country-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.6rem;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--udsm-text);
+  transition: var(--udsm-transition);
+}
+
+.article-metrics-map .country-tag:hover {
+  background: rgba(30, 98, 146, 0.06);
+  border-color: rgba(30, 98, 146, 0.15);
+}
+
+.article-metrics-map .country-tag img {
+  width: 16px;
+  height: 12px;
+  border-radius: 2px;
+  object-fit: cover;
+}
+
+/* ========================================
+   Article Details — Entry Details Sidebar
+   ======================================== */
+.obj_article_details .entry_details .item {
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: var(--udsm-radius-sm);
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.obj_article_details .entry_details .item .label {
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.72rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  color: var(--udsm-navy) !important;
+  margin-bottom: 0.4rem;
+}
+
+.obj_article_details .entry_details .item .value {
+  font-size: 0.88rem;
+  color: var(--udsm-text);
+}
+
+.obj_article_details .entry_details .item.galleys .galleys_links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Citation formats dropdown */
+.obj_article_details .citation_formats_list {
+  background: var(--udsm-glass-bg) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--udsm-glass-border) !important;
+  border-radius: var(--udsm-radius-sm) !important;
+  box-shadow: 0 12px 40px rgba(11, 29, 50, 0.15) !important;
+}
+
+.obj_article_details .citation_formats_button {
+  background: rgba(30, 98, 146, 0.08) !important;
+  color: var(--udsm-blue) !important;
+  border: 1px solid rgba(30, 98, 146, 0.15) !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  font-size: 0.82rem !important;
+}
+
+.obj_article_details .citation_formats_button:hover {
+  background: rgba(30, 98, 146, 0.12) !important;
+}

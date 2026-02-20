@@ -1,72 +1,244 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import Globe from 'react-globe.gl';
 
-const SAMPLE_POINTS = [
-  { lat: -6.7924, lng: 39.2083, city: 'Dar es Salaam', country: 'Tanzania', size: 0.8, color: '#3b82f6' },
-  { lat: -1.2921, lng: 36.8219, city: 'Nairobi', country: 'Kenya', size: 0.5, color: '#10b981' },
-  { lat: 0.3476, lng: 32.5825, city: 'Kampala', country: 'Uganda', size: 0.4, color: '#8b5cf6' },
-  { lat: -15.3875, lng: 28.3228, city: 'Lusaka', country: 'Zambia', size: 0.35, color: '#f59e0b' },
-  { lat: -25.7479, lng: 28.2293, city: 'Pretoria', country: 'South Africa', size: 0.6, color: '#ef4444' },
-  { lat: 51.5074, lng: -0.1278, city: 'London', country: 'UK', size: 0.45, color: '#06b6d4' },
-  { lat: 40.7128, lng: -74.006, city: 'New York', country: 'USA', size: 0.55, color: '#ec4899' },
-  { lat: 35.6762, lng: 139.6503, city: 'Tokyo', country: 'Japan', size: 0.3, color: '#14b8a6' },
-  { lat: 1.3521, lng: 103.8198, city: 'Singapore', country: 'Singapore', size: 0.25, color: '#a855f7' },
-  { lat: 48.8566, lng: 2.3522, city: 'Paris', country: 'France', size: 0.35, color: '#f97316' },
-  { lat: -33.8688, lng: 151.2093, city: 'Sydney', country: 'Australia', size: 0.3, color: '#22d3ee' },
-  { lat: 55.7558, lng: 37.6173, city: 'Moscow', country: 'Russia', size: 0.25, color: '#e879f9' },
-  { lat: 28.6139, lng: 77.209, city: 'New Delhi', country: 'India', size: 0.5, color: '#fbbf24' },
-  { lat: 6.5244, lng: 3.3792, city: 'Lagos', country: 'Nigeria', size: 0.55, color: '#34d399' },
-  { lat: 30.0444, lng: 31.2357, city: 'Cairo', country: 'Egypt', size: 0.4, color: '#fb923c' },
-  { lat: -3.3869, lng: 36.6830, city: 'Arusha', country: 'Tanzania', size: 0.3, color: '#3b82f6' },
-  { lat: -8.9094, lng: 33.4608, city: 'Mbeya', country: 'Tanzania', size: 0.2, color: '#3b82f6' },
-  { lat: -2.5164, lng: 32.9175, city: 'Mwanza', country: 'Tanzania', size: 0.25, color: '#3b82f6' },
-];
+const API_BASE = 'http://localhost:3001';
 
-const ARCS_DATA = [
-  { startLat: -6.7924, startLng: 39.2083, endLat: 51.5074, endLng: -0.1278, color: ['#3b82f680', '#06b6d480'] },
-  { startLat: -6.7924, startLng: 39.2083, endLat: 40.7128, endLng: -74.006, color: ['#3b82f680', '#ec489980'] },
-  { startLat: -6.7924, startLng: 39.2083, endLat: -1.2921, endLng: 36.8219, color: ['#3b82f680', '#10b98180'] },
-  { startLat: -6.7924, startLng: 39.2083, endLat: 28.6139, endLng: 77.209, color: ['#3b82f680', '#fbbf2480'] },
-  { startLat: -6.7924, startLng: 39.2083, endLat: 6.5244, endLng: 3.3792, color: ['#3b82f680', '#34d39980'] },
-  { startLat: -6.7924, startLng: 39.2083, endLat: 35.6762, endLng: 139.6503, color: ['#3b82f680', '#14b8a680'] },
-  { startLat: -6.7924, startLng: 39.2083, endLat: -25.7479, endLng: 28.2293, color: ['#3b82f680', '#ef444480'] },
-  { startLat: -6.7924, startLng: 39.2083, endLat: 30.0444, endLng: 31.2357, color: ['#3b82f680', '#fb923c80'] },
-];
+// Country code to lat/lng mapping
+const COUNTRY_COORDS = {
+  TZ: { lat: -6.7924, lng: 39.2083, name: 'Tanzania' },
+  KE: { lat: -1.2921, lng: 36.8219, name: 'Kenya' },
+  UG: { lat: 0.3476, lng: 32.5825, name: 'Uganda' },
+  ZM: { lat: -15.3875, lng: 28.3228, name: 'Zambia' },
+  ZA: { lat: -25.7479, lng: 28.2293, name: 'South Africa' },
+  GB: { lat: 51.5074, lng: -0.1278, name: 'United Kingdom' },
+  US: { lat: 40.7128, lng: -74.006, name: 'United States' },
+  JP: { lat: 35.6762, lng: 139.6503, name: 'Japan' },
+  SG: { lat: 1.3521, lng: 103.8198, name: 'Singapore' },
+  FR: { lat: 48.8566, lng: 2.3522, name: 'France' },
+  AU: { lat: -33.8688, lng: 151.2093, name: 'Australia' },
+  RU: { lat: 55.7558, lng: 37.6173, name: 'Russia' },
+  IN: { lat: 28.6139, lng: 77.209, name: 'India' },
+  NG: { lat: 6.5244, lng: 3.3792, name: 'Nigeria' },
+  EG: { lat: 30.0444, lng: 31.2357, name: 'Egypt' },
+  DE: { lat: 52.52, lng: 13.405, name: 'Germany' },
+  CN: { lat: 39.9042, lng: 116.4074, name: 'China' },
+  BR: { lat: -23.5505, lng: -46.6333, name: 'Brazil' },
+  CA: { lat: 45.4215, lng: -75.6972, name: 'Canada' },
+  RW: { lat: -1.9403, lng: 29.8739, name: 'Rwanda' },
+  ET: { lat: 9.0320, lng: 38.7469, name: 'Ethiopia' },
+  GH: { lat: 5.6037, lng: -0.1870, name: 'Ghana' },
+  BW: { lat: -24.6282, lng: 25.9231, name: 'Botswana' },
+  MW: { lat: -13.9626, lng: 33.7741, name: 'Malawi' },
+  MZ: { lat: -25.9692, lng: 32.5732, name: 'Mozambique' },
+  ZW: { lat: -17.8252, lng: 31.0335, name: 'Zimbabwe' },
+  NA: { lat: -22.5609, lng: 17.0658, name: 'Namibia' },
+  AO: { lat: -8.8390, lng: 13.2894, name: 'Angola' },
+  CD: { lat: -4.4419, lng: 15.2663, name: 'DR Congo' },
+  SD: { lat: 15.5007, lng: 32.5599, name: 'Sudan' },
+  MA: { lat: 33.9716, lng: -6.8498, name: 'Morocco' },
+  DZ: { lat: 36.7538, lng: 3.0588, name: 'Algeria' },
+  TN: { lat: 36.8065, lng: 10.1815, name: 'Tunisia' },
+  LY: { lat: 32.8872, lng: 13.1913, name: 'Libya' },
+  PK: { lat: 33.6844, lng: 73.0479, name: 'Pakistan' },
+  BD: { lat: 23.8103, lng: 90.4125, name: 'Bangladesh' },
+  ID: { lat: -6.2088, lng: 106.8456, name: 'Indonesia' },
+  MY: { lat: 3.1390, lng: 101.6869, name: 'Malaysia' },
+  PH: { lat: 14.5995, lng: 120.9842, name: 'Philippines' },
+  TH: { lat: 13.7563, lng: 100.5018, name: 'Thailand' },
+  VN: { lat: 21.0285, lng: 105.8542, name: 'Vietnam' },
+  KR: { lat: 37.5665, lng: 126.9780, name: 'South Korea' },
+  NL: { lat: 52.3676, lng: 4.9041, name: 'Netherlands' },
+  BE: { lat: 50.8503, lng: 4.3517, name: 'Belgium' },
+  IT: { lat: 41.9028, lng: 12.4964, name: 'Italy' },
+  ES: { lat: 40.4168, lng: -3.7038, name: 'Spain' },
+  PT: { lat: 38.7223, lng: -9.1393, name: 'Portugal' },
+  SE: { lat: 59.3293, lng: 18.0686, name: 'Sweden' },
+  NO: { lat: 59.9139, lng: 10.7522, name: 'Norway' },
+  FI: { lat: 60.1699, lng: 24.9384, name: 'Finland' },
+  DK: { lat: 55.6761, lng: 12.5683, name: 'Denmark' },
+  PL: { lat: 52.2297, lng: 21.0122, name: 'Poland' },
+  AT: { lat: 48.2082, lng: 16.3738, name: 'Austria' },
+  CH: { lat: 46.9480, lng: 7.4474, name: 'Switzerland' },
+  IE: { lat: 53.3498, lng: -6.2603, name: 'Ireland' },
+  NZ: { lat: -41.2865, lng: 174.7762, name: 'New Zealand' },
+  MX: { lat: 19.4326, lng: -99.1332, name: 'Mexico' },
+  AR: { lat: -34.6037, lng: -58.3816, name: 'Argentina' },
+  CL: { lat: -33.4489, lng: -70.6693, name: 'Chile' },
+  CO: { lat: 4.7110, lng: -74.0721, name: 'Colombia' },
+  PE: { lat: -12.0464, lng: -77.0428, name: 'Peru' },
+  SA: { lat: 24.7136, lng: 46.6753, name: 'Saudi Arabia' },
+  AE: { lat: 25.2048, lng: 55.2708, name: 'UAE' },
+  IL: { lat: 31.7683, lng: 35.2137, name: 'Israel' },
+  TR: { lat: 41.0082, lng: 28.9784, name: 'Turkey' },
+  GR: { lat: 37.9838, lng: 23.7275, name: 'Greece' },
+  UA: { lat: 50.4501, lng: 30.5234, name: 'Ukraine' },
+  CZ: { lat: 50.0755, lng: 14.4378, name: 'Czech Republic' },
+  HU: { lat: 47.4979, lng: 19.0402, name: 'Hungary' },
+  RO: { lat: 44.4268, lng: 26.1025, name: 'Romania' },
+};
+
+// Metric type colors - BRIGHT and visible from afar
+const METRIC_COLORS = {
+  views: '#00ffff',      // Cyan - very bright
+  downloads: '#ffff00',  // Yellow - very bright
+  citations: '#ff00ff',  // Magenta - very bright
+};
 
 export default function GlobeView() {
   const globeRef = useRef();
   const containerRef = useRef();
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [dimensions, setDimensions] = useState({ width: 600, height: 500 });
+  const [ready, setReady] = useState(false);
+  const [points, setPoints] = useState([]);
+  const [totalViews, setTotalViews] = useState(0);
+  const [totalDownloads, setTotalDownloads] = useState(0);
+  const [totalCitations, setTotalCitations] = useState(0);
+
+  // Fetch metrics data from API
+  useEffect(() => {
+    const fetchMetrics = async () => {
+      try {
+        const res = await fetch(`${API_BASE}/api/metrics/countries`);
+        const data = await res.json();
+        
+        console.log('Globe API response:', data);
+        
+        const globePoints = [];
+        
+        // Process viewsByCountry data
+        const viewsByCountry = data.viewsByCountry || [];
+        const downloadsByCountry = data.downloadsByCountry || [];
+        
+        setTotalViews(data.totalViews || 0);
+        setTotalDownloads(data.totalDownloads || 0);
+        
+        console.log('Views by country:', viewsByCountry.length, 'Downloads by country:', downloadsByCountry.length);
+        
+        // Add view points (cyan)
+        if (viewsByCountry.length > 0) {
+          const maxViews = Math.max(...viewsByCountry.map(x => x.total), 1);
+          viewsByCountry.forEach(c => {
+            const code = c.country_id?.toUpperCase();
+            const coords = COUNTRY_COORDS[code];
+            console.log('Processing view:', code, coords ? 'found' : 'NOT FOUND', c.total);
+            if (coords && c.total > 0) {
+              globePoints.push({
+                lat: coords.lat,
+                lng: coords.lng,
+                country: coords.name,
+                code: code,
+                count: c.total,
+                type: 'views',
+                size: Math.max(0.5, (c.total / maxViews) * 2.0),
+                color: METRIC_COLORS.views,
+              });
+            }
+          });
+        }
+        
+        // Add download points (yellow) - offset slightly
+        if (downloadsByCountry.length > 0) {
+          const maxDownloads = Math.max(...downloadsByCountry.map(x => x.total), 1);
+          downloadsByCountry.forEach(c => {
+            const code = c.country_id?.toUpperCase();
+            const coords = COUNTRY_COORDS[code];
+            if (coords && c.total > 0) {
+              globePoints.push({
+                lat: coords.lat + 2,
+                lng: coords.lng + 2,
+                country: coords.name,
+                code: code,
+                count: c.total,
+                type: 'downloads',
+                size: Math.max(0.4, (c.total / maxDownloads) * 1.8),
+                color: METRIC_COLORS.downloads,
+              });
+            }
+          });
+        }
+        
+        console.log('Total globe points:', globePoints.length);
+
+        // Fetch citations from CrossRef API
+        try {
+          const citationsRes = await fetch(`${API_BASE}/api/citations`);
+          const citationsData = await citationsRes.json();
+          setTotalCitations(citationsData.totalCitations || 0);
+          
+          if (citationsData.totalCitations > 0) {
+            const citationCountries = await fetch(`${API_BASE}/api/citations/by-country`);
+            const citationCountryData = await citationCountries.json();
+            
+            if (Array.isArray(citationCountryData) && citationCountryData.length > 0) {
+              const maxCitations = Math.max(...citationCountryData.map(x => x.total));
+              citationCountryData.forEach(c => {
+                const code = c.country_id?.toUpperCase();
+                const coords = COUNTRY_COORDS[code];
+                if (coords && c.total > 0) {
+                  globePoints.push({
+                    lat: coords.lat - 1.5,
+                    lng: coords.lng - 1.5,
+                    country: coords.name,
+                    code: code,
+                    count: c.total,
+                    type: 'citations',
+                    size: Math.max(0.3, (c.total / maxCitations) * 1.5),
+                    color: METRIC_COLORS.citations,
+                  });
+                }
+              });
+            }
+          }
+        } catch (citErr) {
+          console.warn('Citations API not available:', citErr.message);
+        }
+
+        setPoints(globePoints);
+      } catch (err) {
+        console.error('Error fetching globe metrics:', err);
+      }
+    };
+    
+    fetchMetrics();
+  }, []);
 
   const updateDimensions = useCallback(() => {
     if (containerRef.current) {
-      const { width, height } = containerRef.current.getBoundingClientRect();
-      setDimensions({ width, height: Math.max(height, 500) });
+      const rect = containerRef.current.getBoundingClientRect();
+      const w = Math.max(rect.width, 300);
+      const h = Math.max(rect.height, 460);
+      setDimensions({ width: w, height: h });
     }
   }, []);
 
   useEffect(() => {
-    updateDimensions();
+    const timer = setTimeout(() => {
+      updateDimensions();
+      setReady(true);
+    }, 300);
     window.addEventListener('resize', updateDimensions);
-    return () => window.removeEventListener('resize', updateDimensions);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', updateDimensions);
+    };
   }, [updateDimensions]);
 
   useEffect(() => {
-    if (globeRef.current) {
+    if (globeRef.current && ready) {
       const controls = globeRef.current.controls();
       controls.autoRotate = true;
-      controls.autoRotateSpeed = 0.5;
+      controls.autoRotateSpeed = 0.4;
       controls.enableZoom = true;
       controls.minDistance = 200;
       controls.maxDistance = 500;
 
       globeRef.current.pointOfView({ lat: -6.7924, lng: 39.2083, altitude: 2.2 }, 1000);
     }
-  }, [dimensions]);
+  }, [ready, dimensions]);
 
   return (
-    <div ref={containerRef} className="relative w-full h-full min-h-[500px] flex items-center justify-center">
-      {dimensions.width > 0 && (
+    <div ref={containerRef} className="relative w-full flex items-center justify-center" style={{ height: '460px' }}>
+      {ready && (
         <Globe
           ref={globeRef}
           width={dimensions.width}
@@ -74,32 +246,44 @@ export default function GlobeView() {
           globeImageUrl="//unpkg.com/three-globe/example/img/earth-blue-marble.jpg"
           bumpImageUrl="//unpkg.com/three-globe/example/img/earth-topology.png"
           backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
-          pointsData={SAMPLE_POINTS}
+          pointsData={points}
           pointLat="lat"
           pointLng="lng"
-          pointAltitude={(d) => d.size * 0.05}
-          pointRadius={(d) => d.size * 0.5}
+          pointAltitude={0.01}
+          pointRadius={(d) => d.size * 1.2}
           pointColor="color"
           pointLabel={(d) => `
-            <div style="background: rgba(15,23,42,0.9); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(59,130,246,0.3); font-size: 12px; color: #e2e8f0;">
-              <div style="font-weight: 600; color: ${d.color};">${d.city}, ${d.country}</div>
-              <div style="margin-top: 2px; color: #94a3b8;">Active readers</div>
+            <div style="background: rgba(15,23,42,0.9); backdrop-filter: blur(12px); padding: 10px 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); font-size: 12px; color: #e2e8f0; box-shadow: 0 8px 32px rgba(0,0,0,0.4);">
+              <div style="font-weight: 600; color: ${d.color};">${d.country}</div>
+              <div style="margin-top: 4px; color: #94a3b8;">
+                ${d.type === 'views' ? '👁 Views' : d.type === 'downloads' ? '📥 Downloads' : '📚 Citations'}: <strong style="color: ${d.color};">${d.count.toLocaleString()}</strong>
+              </div>
             </div>
           `}
-          arcsData={ARCS_DATA}
-          arcColor="color"
-          arcDashLength={0.4}
-          arcDashGap={0.2}
-          arcDashAnimateTime={2000}
-          arcStroke={0.5}
           atmosphereColor="#3b82f6"
-          atmosphereAltitude={0.2}
+          atmosphereAltitude={0.18}
           animateIn={true}
         />
       )}
-      <div className="absolute bottom-4 left-4 rounded-xl bg-slate-900/80 backdrop-blur-sm border border-slate-700/50 px-4 py-2.5 text-xs text-slate-400">
-        <span className="inline-block w-2 h-2 rounded-full bg-blue-500 animate-pulse mr-2"></span>
-        Live reader connections from Dar es Salaam
+      {/* Legend */}
+      <div className="absolute bottom-4 left-4 rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] px-4 py-3 text-xs shadow-lg shadow-black/10">
+        <div className="flex items-center gap-4 mb-2">
+          <span className="flex items-center gap-1.5">
+            <span className="w-3.5 h-3.5 rounded-full" style={{ backgroundColor: METRIC_COLORS.views, boxShadow: `0 0 10px ${METRIC_COLORS.views}` }}></span>
+            <span className="text-slate-300 font-medium">Views</span>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-3.5 h-3.5 rounded-full" style={{ backgroundColor: METRIC_COLORS.downloads, boxShadow: `0 0 10px ${METRIC_COLORS.downloads}` }}></span>
+            <span className="text-slate-300 font-medium">Downloads</span>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-3.5 h-3.5 rounded-full" style={{ backgroundColor: METRIC_COLORS.citations, boxShadow: `0 0 10px ${METRIC_COLORS.citations}` }}></span>
+            <span className="text-slate-300 font-medium">Citations</span>
+          </span>
+        </div>
+        <div className="text-slate-500 text-[10px]">
+          {totalViews.toLocaleString()} views, {totalDownloads.toLocaleString()} downloads across {points.length} regions
+        </div>
       </div>
     </div>
   );

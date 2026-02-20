@@ -1,35 +1,44 @@
 import { TrendingUp, TrendingDown } from 'lucide-react';
 
-export default function StatCard({ title, value, subtitle, icon: Icon, trend, color = 'blue' }) {
+export default function StatCard({ title, value, subtitle, icon: Icon, trend, color = 'blue', darkMode = true }) {
   const colorMap = {
-    blue: { bg: 'from-blue-500/20 to-blue-600/5', border: 'border-blue-500/30', text: 'text-blue-400', icon: 'text-blue-400' },
-    green: { bg: 'from-emerald-500/20 to-emerald-600/5', border: 'border-emerald-500/30', text: 'text-emerald-400', icon: 'text-emerald-400' },
-    purple: { bg: 'from-purple-500/20 to-purple-600/5', border: 'border-purple-500/30', text: 'text-purple-400', icon: 'text-purple-400' },
-    amber: { bg: 'from-amber-500/20 to-amber-600/5', border: 'border-amber-500/30', text: 'text-amber-400', icon: 'text-amber-400' },
+    blue: { glow: 'shadow-blue-500/10', icon: 'text-blue-400', iconBg: 'bg-blue-500/10', accent: 'from-blue-500/10' },
+    green: { glow: 'shadow-emerald-500/10', icon: 'text-emerald-400', iconBg: 'bg-emerald-500/10', accent: 'from-emerald-500/10' },
+    purple: { glow: 'shadow-purple-500/10', icon: 'text-purple-400', iconBg: 'bg-purple-500/10', accent: 'from-purple-500/10' },
+    amber: { glow: 'shadow-amber-500/10', icon: 'text-amber-400', iconBg: 'bg-amber-500/10', accent: 'from-amber-500/10' },
+    pink: { glow: 'shadow-pink-500/10', icon: 'text-pink-400', iconBg: 'bg-pink-500/10', accent: 'from-pink-500/10' },
   };
 
   const c = colorMap[color] || colorMap.blue;
 
   return (
-    <div className={`relative overflow-hidden rounded-2xl border ${c.border} bg-gradient-to-br ${c.bg} backdrop-blur-sm p-5 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-black/20`}>
-      <div className="flex items-start justify-between">
-        <div className="space-y-1">
-          <p className="text-xs font-medium uppercase tracking-wider text-slate-400">{title}</p>
-          <p className="text-3xl font-bold text-white">{typeof value === 'number' ? value.toLocaleString() : value}</p>
-          {subtitle && <p className="text-sm text-slate-400">{subtitle}</p>}
+    <div className={`group relative overflow-hidden rounded-3xl border backdrop-blur-2xl p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl ${c.glow} ${
+      darkMode 
+        ? 'border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.12]' 
+        : 'border-gray-200 bg-white hover:bg-gray-50 hover:border-gray-300 shadow-sm'
+    }`}>
+      {/* Subtle gradient accent */}
+      <div className={`absolute inset-0 bg-gradient-to-br ${c.accent} to-transparent opacity-50 pointer-events-none`}></div>
+      <div className="relative z-10">
+        <div className="flex items-start justify-between">
+          <div className="space-y-1.5">
+            <p className={`text-[11px] font-semibold uppercase tracking-widest ${darkMode ? 'text-slate-500' : 'text-gray-500'}`}>{title}</p>
+            <p className={`text-3xl font-bold tracking-tight ${darkMode ? 'text-white/90' : 'text-gray-800'}`}>{typeof value === 'number' ? value.toLocaleString() : value}</p>
+            {subtitle && <p className={`text-[13px] ${darkMode ? 'text-slate-400/80' : 'text-gray-500'}`}>{subtitle}</p>}
+          </div>
+          {Icon && (
+            <div className={`rounded-2xl ${c.iconBg} backdrop-blur-sm p-3 ${c.icon} transition-transform duration-500 group-hover:scale-110`}>
+              <Icon size={20} strokeWidth={1.5} />
+            </div>
+          )}
         </div>
-        {Icon && (
-          <div className={`rounded-xl bg-slate-800/50 p-2.5 ${c.icon}`}>
-            <Icon size={22} />
+        {trend !== undefined && (
+          <div className={`mt-4 flex items-center gap-1.5 text-xs font-medium ${trend >= 0 ? 'text-emerald-400/90' : 'text-red-400/90'}`}>
+            {trend >= 0 ? <TrendingUp size={13} /> : <TrendingDown size={13} />}
+            <span>{Math.abs(trend)}% from last month</span>
           </div>
         )}
       </div>
-      {trend !== undefined && (
-        <div className={`mt-3 flex items-center gap-1 text-xs font-medium ${trend >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-          {trend >= 0 ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
-          <span>{Math.abs(trend)}% from last month</span>
-        </div>
-      )}
     </div>
   );
 }

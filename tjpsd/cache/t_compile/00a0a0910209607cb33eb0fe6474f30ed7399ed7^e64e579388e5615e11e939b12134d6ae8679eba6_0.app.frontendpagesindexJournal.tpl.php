@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.1, created on 2026-02-14 16:44:23
+/* Smarty version 4.3.1, created on 2026-02-14 17:04:31
   from 'app:frontendpagesindexJournal.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.1',
-  'unifunc' => 'content_69909857b26dd3_34693793',
+  'unifunc' => 'content_69909d0f0ead80_53735751',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e64e579388e5615e11e939b12134d6ae8679eba6' => 
     array (
       0 => 'app:frontendpagesindexJournal.tpl',
-      1 => 1771083762,
+      1 => 1771084904,
       2 => 'app',
     ),
   ),
@@ -24,29 +24,39 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'app:frontend/components/footer.tpl' => 1,
   ),
 ),false)) {
-function content_69909857b26dd3_34693793 (Smarty_Internal_Template $_smarty_tpl) {
+function content_69909d0f0ead80_53735751 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\Users\\junio\\Hackathon-2026\\tjpsd\\lib\\pkp\\lib\\vendor\\smarty\\smarty\\libs\\plugins\\modifier.count.php','function'=>'smarty_modifier_count',),1=>array('file'=>'C:\\Users\\junio\\Hackathon-2026\\tjpsd\\lib\\pkp\\lib\\vendor\\smarty\\smarty\\libs\\plugins\\modifier.date_format.php','function'=>'smarty_modifier_date_format',),));
 $_smarty_tpl->_subTemplateRender("app:frontend/components/header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('pageTitleTranslated'=>$_smarty_tpl->tpl_vars['currentJournal']->value->getLocalizedName()), 0, false);
 ?>
 
 <div class="page_index_journal">
 
-		<section id="analytics" class="analytics_dashboard_section" style="display: none; margin-bottom: 2rem;">
-		<div style="background: #1e293b; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.2);">
-			<div style="padding: 12px 20px; background: linear-gradient(135deg, #1e3a5f, #0f172a); border-bottom: 1px solid #334155; display: flex; align-items: center; gap: 10px;">
-				<span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #3b82f6; animation: pulse 2s infinite;"></span>
-				<h2 style="margin: 0; font-size: 16px; font-weight: 600; color: #e2e8f0; letter-spacing: 0.5px;">📊 Analytics Dashboard</h2>
-			</div>
-			<iframe
-				id="analyticsIframe"
-				style="width: 100%; height: 900px; border: none; overflow: hidden;"
-				title="UDSM Journal Analytics Dashboard"
-				allow="accelerometer; autoplay"
-			></iframe>
-		</div>
+		<section id="analytics" class="analytics_dashboard_section" style="display: none;">
+		<iframe
+			id="analyticsIframe"
+			style="width: 100%; border: none; overflow: hidden;"
+			title="UDSM Journal Analytics Dashboard"
+			allow="accelerometer; autoplay"
+		></iframe>
 	</section>
 	<style>
-		@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+		.analytics_dashboard_section.active {
+			position: fixed;
+			left: 0;
+			width: 100vw;
+			background: #0f172a;
+			z-index: 100;
+			margin: 0;
+			padding: 0;
+		}
+		.analytics_dashboard_section.active iframe {
+			width: 100%;
+			height: 100%;
+		}
+		.pkp_structure_head {
+			position: relative;
+			z-index: 200;
+		}
 	</style>
 	<?php echo '<script'; ?>
 >
@@ -56,21 +66,32 @@ $_smarty_tpl->_subTemplateRender("app:frontend/components/header.tpl", $_smarty_
 		var mainContent = document.querySelector('.page_index_journal');
 		var contentWrapper = document.querySelector('.pkp_structure_content');
 		var sidebar = document.querySelector('.pkp_structure_sidebar');
+		var header = document.querySelector('.pkp_structure_head');
 
 		function toggleAnalytics() {
 			if (window.location.hash === '#analytics') {
 				analyticsSection.style.display = 'block';
+				analyticsSection.classList.add('active');
 				// Lazy-load iframe only when Analytics tab is clicked
 				if (!analyticsIframe.src || analyticsIframe.src === window.location.href) {
 					analyticsIframe.src = 'http://localhost:3000';
 				}
-				// Hide sidebar and go full-width
+				// Hide sidebar
 				if (sidebar) sidebar.style.display = 'none';
+				// Make content full-width
 				if (contentWrapper) {
 					contentWrapper.classList.remove('has_sidebar');
-					contentWrapper.style.maxWidth = '100%';
+					contentWrapper.style.cssText = 'max-width:100%;width:100%;padding:0;margin:0;';
 				}
-				if (mainContent) mainContent.style.maxWidth = '100%';
+				if (mainContent) {
+					mainContent.style.cssText = 'max-width:100%;width:100%;padding:0;margin:0;';
+				}
+				// Position below header, fill remaining viewport
+				if (header) {
+					var headerHeight = header.offsetHeight;
+					analyticsSection.style.top = headerHeight + 'px';
+					analyticsSection.style.height = 'calc(100vh - ' + headerHeight + 'px)';
+				}
 				// Hide other homepage sections
 				var siblings = mainContent.children;
 				for (var i = 0; i < siblings.length; i++) {
@@ -78,15 +99,17 @@ $_smarty_tpl->_subTemplateRender("app:frontend/components/header.tpl", $_smarty_
 						siblings[i].style.display = 'none';
 					}
 				}
+				document.body.style.overflow = 'hidden';
 			} else {
 				analyticsSection.style.display = 'none';
+				analyticsSection.classList.remove('active');
 				// Restore sidebar and layout
 				if (sidebar) sidebar.style.display = '';
 				if (contentWrapper) {
 					contentWrapper.classList.add('has_sidebar');
-					contentWrapper.style.maxWidth = '';
+					contentWrapper.style.cssText = '';
 				}
-				if (mainContent) mainContent.style.maxWidth = '';
+				if (mainContent) mainContent.style.cssText = '';
 				// Show other homepage sections
 				var siblings = mainContent.children;
 				for (var i = 0; i < siblings.length; i++) {
@@ -94,6 +117,7 @@ $_smarty_tpl->_subTemplateRender("app:frontend/components/header.tpl", $_smarty_
 						siblings[i].style.display = '';
 					}
 				}
+				document.body.style.overflow = '';
 			}
 		}
 

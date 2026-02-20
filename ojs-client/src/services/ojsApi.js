@@ -1,21 +1,27 @@
 import axios from 'axios';
 
 const OJS_BASE_URL = 'http://localhost:8000';
-const API_BASE = `${OJS_BASE_URL}/api/v1`;
+const API_SERVER = 'http://localhost:3001';
 const JOURNAL_PATH = 'tjpsd';
 
 const api = axios.create({
-  baseURL: `${OJS_BASE_URL}/${JOURNAL_PATH}`,
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  baseURL: API_SERVER,
+  headers: { 'Content-Type': 'application/json' },
 });
+
+export async function fetchDashboardStats() {
+  try {
+    const res = await api.get('/api/stats');
+    return res.data;
+  } catch (err) {
+    console.warn('Failed to fetch dashboard stats:', err.message);
+    return null;
+  }
+}
 
 export async function fetchSubmissions() {
   try {
-    const res = await api.get('/api/v1/submissions', {
-      params: { count: 100, status: 3 },
-    });
+    const res = await api.get('/api/submissions', { params: { limit: 20 } });
     return res.data;
   } catch (err) {
     console.warn('Failed to fetch submissions:', err.message);
@@ -25,9 +31,7 @@ export async function fetchSubmissions() {
 
 export async function fetchIssues() {
   try {
-    const res = await api.get('/api/v1/issues', {
-      params: { count: 100 },
-    });
+    const res = await api.get('/api/issues');
     return res.data;
   } catch (err) {
     console.warn('Failed to fetch issues:', err.message);
@@ -35,42 +39,43 @@ export async function fetchIssues() {
   }
 }
 
-export async function fetchStats() {
+export async function fetchTimeline() {
   try {
-    const res = await api.get('/api/v1/stats/publications', {
-      params: { count: 100 },
-    });
+    const res = await api.get('/api/metrics/timeline');
     return res.data;
   } catch (err) {
-    console.warn('Failed to fetch stats:', err.message);
-    return { items: [], itemsMax: 0 };
+    console.warn('Failed to fetch timeline:', err.message);
+    return { views: [], downloads: [] };
   }
 }
 
-export async function fetchStatsTimeline(params = {}) {
+export async function fetchCountries() {
   try {
-    const res = await api.get('/api/v1/stats/publications/timeline', {
-      params: {
-        timelineInterval: 'month',
-        ...params,
-      },
-    });
+    const res = await api.get('/api/metrics/countries');
     return res.data;
   } catch (err) {
-    console.warn('Failed to fetch stats timeline:', err.message);
+    console.warn('Failed to fetch countries:', err.message);
     return [];
   }
 }
 
-export async function fetchContextStats() {
+export async function fetchTopArticles() {
   try {
-    const res = await api.get('/api/v1/stats/publications', {
-      params: { count: 100, orderBy: 'views', orderDirection: 'DESC' },
-    });
+    const res = await api.get('/api/top-articles');
     return res.data;
   } catch (err) {
-    console.warn('Failed to fetch context stats:', err.message);
-    return { items: [], itemsMax: 0 };
+    console.warn('Failed to fetch top articles:', err.message);
+    return [];
+  }
+}
+
+export async function fetchAuthors() {
+  try {
+    const res = await api.get('/api/authors');
+    return res.data;
+  } catch (err) {
+    console.warn('Failed to fetch authors:', err.message);
+    return { total: 0 };
   }
 }
 

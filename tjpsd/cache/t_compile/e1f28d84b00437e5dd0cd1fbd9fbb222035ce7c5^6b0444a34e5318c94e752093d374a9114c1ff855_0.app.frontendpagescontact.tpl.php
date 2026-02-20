@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.1, created on 2026-02-13 16:59:23
+/* Smarty version 4.3.1, created on 2026-02-15 08:17:08
   from 'app:frontendpagescontact.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.1',
-  'unifunc' => 'content_698f4a5b164c43_96937330',
+  'unifunc' => 'content_699172f4343621_07899202',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '6b0444a34e5318c94e752093d374a9114c1ff855' => 
     array (
       0 => 'app:frontendpagescontact.tpl',
-      1 => 1770978293,
+      1 => 1771066912,
       2 => 'app',
     ),
   ),
@@ -24,8 +24,8 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'app:frontend/components/footer.tpl' => 1,
   ),
 ),false)) {
-function content_698f4a5b164c43_96937330 (Smarty_Internal_Template $_smarty_tpl) {
-$_smarty_tpl->_checkPlugins(array(0=>array('file'=>'D:\\HACKATHON-OGSYSTEM\\tjpsd\\lib\\pkp\\lib\\vendor\\smarty\\smarty\\libs\\plugins\\function.mailto.php','function'=>'smarty_function_mailto',),));
+function content_699172f4343621_07899202 (Smarty_Internal_Template $_smarty_tpl) {
+$_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\Users\\junio\\Hackathon-2026\\tjpsd\\lib\\pkp\\lib\\vendor\\smarty\\smarty\\libs\\plugins\\function.mailto.php','function'=>'smarty_function_mailto',),));
 $_smarty_tpl->_subTemplateRender("app:frontend/components/header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('pageTitle'=>"about.contact"), 0, false);
 ?>
 

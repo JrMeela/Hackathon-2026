@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.3.1, created on 2026-02-14 10:27:28
+/* Smarty version 4.3.1, created on 2026-02-14 23:00:58
   from 'plugins-2-plugins-generic-webFeed-generic-webFeed:block.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.3.1',
-  'unifunc' => 'content_69904000b946f3_47377223',
+  'unifunc' => 'content_6990f09aecc3f4_93918115',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '7da3009024dac489e5e85e33524217844fd94ea9' => 
     array (
       0 => 'plugins-2-plugins-generic-webFeed-generic-webFeed:block.tpl',
-      1 => 1770978330,
+      1 => 1771066925,
       2 => 'plugins-2-plugins-generic-webFeed-generic-webFeed',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_69904000b946f3_47377223 (Smarty_Internal_Template $_smarty_tpl) {
+function content_6990f09aecc3f4_93918115 (Smarty_Internal_Template $_smarty_tpl) {
 ?><div class="pkp_block block_web_feed">
 	<h2 class="title"><?php echo call_user_func_array( $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['translate'][0], array( array('key'=>"journal.currentIssue"),$_smarty_tpl ) );?>
 </h2>

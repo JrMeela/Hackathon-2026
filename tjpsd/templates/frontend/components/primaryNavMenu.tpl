@@ -30,6 +30,21 @@
 					{translate key="navigation.archives"}
 				</a>
 			</li>
+
+		{* Analytics Tab with Dropdown *}
+		<li class="has_submenu analytics-nav-dropdown">
+			<a href="http://localhost:3000/">
+				Analytics
+			</a>
+			<ul>
+				<li><a href="http://localhost:3000/#top-cited">All-Time Top Cited</a></li>
+				<li><a href="http://localhost:3000/#monthly-top">Monthly Top 10</a></li>
+				<li><a href="http://localhost:3000/#visual">Visual Analytics</a></li>
+				<li><a href="http://localhost:3000/#growth">Citation Growth</a></li>
+				<li><a href="http://localhost:3000/#countries">Readers by Country</a></li>
+				<li><a href="http://localhost:3000/#trending">Trending Articles</a></li>
+			</ul>
+		</li>
 		{/if}
 
 		<li>

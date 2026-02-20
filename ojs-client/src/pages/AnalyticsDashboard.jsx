@@ -1,69 +1,68 @@
 import { useEffect, useState } from 'react';
-import { Eye, Download, Quote, FileText, Search, RefreshCw } from 'lucide-react';
+import { Eye, Download, FileText, BookOpen, Sun, Moon, Quote } from 'lucide-react';
 import StatCard from '../components/StatCard';
 import GlobeView from '../components/GlobeView';
 import LiveActivity from '../components/LiveActivity';
-import { fetchSubmissions, fetchStats, fetchContextStats, OJS_BASE_URL, JOURNAL_PATH } from '../services/ojsApi';
+import AnalyticsPanel from '../components/AnalyticsPanel';
+import { fetchDashboardStats, fetchIssues } from '../services/ojsApi';
+
+const API_BASE = 'http://localhost:3001';
 
 export default function AnalyticsDashboard() {
+  const [darkMode, setDarkMode] = useState(() => {
+    const saved = localStorage.getItem('analytics-theme');
+    return saved ? saved === 'dark' : true; // Default to dark
+  });
+
+  useEffect(() => {
+    localStorage.setItem('analytics-theme', darkMode ? 'dark' : 'light');
+  }, [darkMode]);
+
   const [stats, setStats] = useState({
     totalViews: 0,
-    monthlyViews: 0,
     totalDownloads: 0,
-    monthlyDownloads: 0,
-    totalCitations: 0,
-    monthlyCitations: 0,
     totalArticles: 0,
-    monthlyArticles: 0,
+    totalIssues: 0,
+    currentMonthViews: 0,
+    currentMonthDownloads: 0,
+    viewsTrend: 0,
+    downloadsTrend: 0,
   });
+  const [citations, setCitations] = useState({ total: 0, source: 'CrossRef' });
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     async function loadData() {
       setLoading(true);
       try {
-        const [submissions, pubStats] = await Promise.all([
-          fetchSubmissions(),
-          fetchContextStats(),
+        const [dashStats, issuesData] = await Promise.all([
+          fetchDashboardStats(),
+          fetchIssues(),
         ]);
 
-        const totalArticles = submissions.itemsMax || submissions.items?.length || 0;
-
-        let totalViews = 0;
-        let totalDownloads = 0;
-        if (pubStats.items && pubStats.items.length > 0) {
-          pubStats.items.forEach((item) => {
-            totalViews += item.abstractViews || item.views || 0;
-            totalDownloads += item.galleyViews || item.downloads || 0;
+        if (dashStats) {
+          setStats({
+            totalViews: dashStats.totalViews,
+            totalDownloads: dashStats.totalDownloads,
+            totalArticles: dashStats.totalArticles,
+            totalIssues: dashStats.totalIssues,
+            currentMonthViews: dashStats.currentMonthViews,
+            currentMonthDownloads: dashStats.currentMonthDownloads,
+            viewsTrend: dashStats.viewsTrend,
+            downloadsTrend: dashStats.downloadsTrend,
           });
         }
 
-        if (totalViews === 0) totalViews = 12847;
-        if (totalDownloads === 0) totalDownloads = 5432;
-
-        setStats({
-          totalViews,
-          monthlyViews: Math.floor(totalViews * 0.12),
-          totalDownloads,
-          monthlyDownloads: Math.floor(totalDownloads * 0.15),
-          totalCitations: Math.floor(totalArticles * 3.2),
-          monthlyCitations: Math.floor(totalArticles * 0.4),
-          totalArticles,
-          monthlyArticles: Math.max(Math.floor(totalArticles * 0.08), 2),
-        });
+        // Fetch citations from CrossRef API
+        try {
+          const citRes = await fetch(`${API_BASE}/api/citations`);
+          const citData = await citRes.json();
+          setCitations({ total: citData.totalCitations || 0, source: citData.source || 'CrossRef' });
+        } catch (citErr) {
+          console.warn('Citations API not available:', citErr);
+        }
       } catch (err) {
         console.error('Error loading analytics:', err);
-        setStats({
-          totalViews: 12847,
-          monthlyViews: 1542,
-          totalDownloads: 5432,
-          monthlyDownloads: 815,
-          totalCitations: 892,
-          monthlyCitations: 67,
-          totalArticles: 156,
-          monthlyArticles: 12,
-        });
       } finally {
         setLoading(false);
       }
@@ -71,106 +70,119 @@ export default function AnalyticsDashboard() {
     loadData();
   }, []);
 
+  // Theme classes
+  const theme = {
+    bg: darkMode ? 'bg-[#0a0e1a]' : 'bg-gray-50',
+    card: darkMode ? 'bg-white/[0.02] border-white/[0.08]' : 'bg-white border-gray-200 shadow-sm',
+    text: darkMode ? 'text-white/80' : 'text-gray-800',
+    textMuted: darkMode ? 'text-slate-500/70' : 'text-gray-500',
+    textSubtle: darkMode ? 'text-slate-600/50' : 'text-gray-400',
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
-      {/* Header */}
-      <header className="border-b border-slate-800/60 bg-slate-900/50 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
-              <Eye size={18} className="text-white" />
-            </div>
-            <div>
-              <h1 className="text-base font-bold text-white leading-tight">TJPSD Analytics</h1>
-              <p className="text-[11px] text-slate-500">Tanzania Journal of Population Studies and Development</p>
-            </div>
-          </div>
+    <div className={`min-h-screen ${theme.bg} relative overflow-hidden transition-colors duration-300`}>
+      {/* Theme Toggle Button */}
+      <button
+        onClick={() => setDarkMode(!darkMode)}
+        className={`fixed top-4 right-4 z-50 p-3 rounded-2xl backdrop-blur-xl border transition-all duration-300 ${
+          darkMode 
+            ? 'bg-white/[0.05] border-white/[0.1] hover:bg-white/[0.1] text-yellow-400' 
+            : 'bg-white border-gray-200 hover:bg-gray-100 text-gray-700 shadow-lg'
+        }`}
+        title={darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+      >
+        {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+      </button>
 
-          <div className="flex items-center gap-3">
-            <div className="relative">
-              <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
-              <input
-                type="text"
-                placeholder="Search articles..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-56 pl-9 pr-3 py-2 rounded-xl bg-slate-800/60 border border-slate-700/50 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/20 transition-all"
-              />
-            </div>
-            <button
-              onClick={() => window.location.reload()}
-              className="p-2 rounded-lg bg-slate-800/60 border border-slate-700/50 text-slate-400 hover:text-white hover:border-slate-600 transition-all"
-              title="Refresh data"
-            >
-              <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
-            </button>
-          </div>
+      {/* Ambient background blurs — Apple-style depth */}
+      {darkMode && (
+        <div className="pointer-events-none fixed inset-0 z-0">
+          <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full bg-blue-600/[0.07] blur-[120px]"></div>
+          <div className="absolute bottom-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full bg-purple-600/[0.05] blur-[100px]"></div>
+          <div className="absolute top-[40%] right-[20%] w-[300px] h-[300px] rounded-full bg-emerald-600/[0.04] blur-[80px]"></div>
         </div>
-      </header>
+      )}
 
-      <main className="max-w-[1600px] mx-auto px-4 sm:px-6 py-6">
+      <main className="relative z-10 max-w-[1600px] mx-auto px-5 sm:px-8 py-6">
         {/* Stat Cards Row */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
           <StatCard
-            title="Total Views"
+            title="Article Views"
             value={stats.totalViews}
-            subtitle={`${stats.monthlyViews.toLocaleString()} monthly views`}
+            subtitle={`${stats.currentMonthViews.toLocaleString()} this month`}
             icon={Eye}
-            trend={12.5}
+            trend={stats.viewsTrend}
             color="blue"
+            darkMode={darkMode}
           />
           <StatCard
-            title="Total Downloads"
+            title="PDF Downloads"
             value={stats.totalDownloads}
-            subtitle={`${stats.monthlyDownloads.toLocaleString()} monthly downloads`}
+            subtitle={`${stats.currentMonthDownloads.toLocaleString()} this month`}
             icon={Download}
-            trend={8.3}
+            trend={stats.downloadsTrend}
             color="green"
+            darkMode={darkMode}
           />
           <StatCard
-            title="Total Citations"
-            value={stats.totalCitations}
-            subtitle={`${stats.monthlyCitations.toLocaleString()} monthly citations`}
+            title="Citations"
+            value={citations.total}
+            subtitle={`Source: ${citations.source}`}
             icon={Quote}
-            trend={5.7}
-            color="purple"
+            color="pink"
+            darkMode={darkMode}
           />
           <StatCard
-            title="Total Articles"
+            title="Published Articles"
             value={stats.totalArticles}
-            subtitle={`${stats.monthlyArticles.toLocaleString()} monthly articles`}
+            subtitle="Peer-reviewed publications"
             icon={FileText}
-            trend={3.2}
+            color="purple"
+            darkMode={darkMode}
+          />
+          <StatCard
+            title="Published Issues"
+            value={stats.totalIssues}
+            subtitle="Journal volumes & issues"
+            icon={BookOpen}
             color="amber"
+            darkMode={darkMode}
           />
         </div>
 
         {/* Globe + Live Activity Row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* 3D Globe - takes 2/3 */}
-          <div className="lg:col-span-2 rounded-2xl border border-slate-700/50 bg-slate-800/20 backdrop-blur-sm overflow-hidden" style={{ minHeight: '520px' }}>
-            <div className="px-5 pt-4 pb-2 flex items-center justify-between">
+          <div className={`lg:col-span-2 rounded-3xl border backdrop-blur-2xl overflow-hidden transition-colors duration-300 ${
+            darkMode ? 'border-white/[0.08] bg-white/[0.02]' : 'border-gray-200 bg-white shadow-sm'
+          }`} style={{ minHeight: '520px' }}>
+            <div className="px-6 pt-5 pb-2 flex items-center justify-between">
               <div>
-                <h2 className="text-sm font-semibold text-white uppercase tracking-wider">Global Readership Map</h2>
-                <p className="text-xs text-slate-500 mt-0.5">Real-time reader distribution across the world</p>
+                <h2 className={`text-[11px] font-semibold uppercase tracking-widest ${darkMode ? 'text-white/80' : 'text-gray-700'}`}>Global Readership Map</h2>
+                <p className={`text-xs mt-1 ${darkMode ? 'text-slate-500/70' : 'text-gray-500'}`}>Real-time reader distribution across the world</p>
               </div>
-              <div className="flex items-center gap-2 text-[10px] text-slate-500">
-                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-500"></span>Tanzania</span>
-                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500"></span>East Africa</span>
-                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-purple-500"></span>Global</span>
+              <div className={`flex items-center gap-3 text-[10px] ${darkMode ? 'text-slate-500/70' : 'text-gray-500'}`}>
+                <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-blue-400"></span>Views</span>
+                <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>Downloads</span>
+                <span className="flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-purple-400"></span>Citations</span>
               </div>
             </div>
-            <GlobeView />
+            <GlobeView darkMode={darkMode} />
           </div>
 
           {/* Live Activity - takes 1/3 */}
           <div className="lg:col-span-1">
-            <LiveActivity />
+            <LiveActivity darkMode={darkMode} />
           </div>
         </div>
 
+        {/* Analytics Panel with Dropdown */}
+        <div className="mt-4">
+          <AnalyticsPanel darkMode={darkMode} />
+        </div>
+
         {/* Footer attribution */}
-        <div className="mt-8 text-center text-xs text-slate-600">
+        <div className={`mt-8 text-center text-[11px] ${darkMode ? 'text-slate-600/50' : 'text-gray-400'}`}>
           <p>Powered by OJS REST API &middot; University of Dar es Salaam &middot; TJPSD Analytics Dashboard</p>
         </div>
       </main>
